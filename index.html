@@ -1,136 +1,96 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
-	<head>
-		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-		<title>Unity Web Player | Space Shooter</title>
-		<script type='text/javascript' src='jquery.min.js'></script>
-		<script type="text/javascript">
-		<!--
-		var unityObjectUrl = "UnityObject2.js";
-		if (document.location.protocol == 'https:')
-			unityObjectUrl = unityObjectUrl.replace("http://", "https://ssl-");
-		document.write('<script type="text\/javascript" src="' + unityObjectUrl + '"><\/script>');
-		-->
-		</script>
-		<script type="text/javascript">
-		<!--
-			var config = {
-				width: 600, 
-				height: 900,
-				params: { enableDebugging:"0" }
-				
-			};
-			var u = new UnityObject2(config);
+﻿<!DOCTYPE html>
+<html>
 
-			jQuery(function() {
+<head>
 
-				var $missingScreen = jQuery("#unityPlayer").find(".missing");
-				var $brokenScreen = jQuery("#unityPlayer").find(".broken");
-				$missingScreen.hide();
-				$brokenScreen.hide();
-				
-				u.observeProgress(function (progress) {
-					switch(progress.pluginStatus) {
-						case "broken":
-							$brokenScreen.find("a").click(function (e) {
-								e.stopPropagation();
-								e.preventDefault();
-								u.installPlugin();
-								return false;
-							});
-							$brokenScreen.show();
-						break;
-						case "missing":
-							$missingScreen.find("a").click(function (e) {
-								e.stopPropagation();
-								e.preventDefault();
-								u.installPlugin();
-								return false;
-							});
-							$missingScreen.show();
-						break;
-						case "installed":
-							$missingScreen.remove();
-						break;
-						case "first":
-						break;
-					}
-				});
-				u.initPlugin(jQuery("#unityPlayer")[0], "Space_Shooter1.unity3d");
-			});
-		-->
-		</script>
-		<style type="text/css">
-		<!--
-		body {
-			font-family: Helvetica, Verdana, Arial, sans-serif;
-			background-color: white;
-			color: black;
-			text-align: center;
-		}
-		a:link, a:visited {
-			color: #000;
-		}
-		a:active, a:hover {
-			color: #666;
-		}
-		p.header {
-			font-size: small;
-		}
-		p.header span {
-			font-weight: bold;
-		}
-		p.footer {
-			font-size: x-small;
-		}
-		div.content {
-			margin: auto;
-			width: 600px;
-		}
-		div.broken,
-		div.missing {
-			margin: auto;
-			position: relative;
-			top: 50%;
-			width: 193px;
-		}
-		div.broken a,
-		div.missing a {
-			height: 63px;
-			position: relative;
-			top: -31px;
-		}
-		div.broken img,
-		div.missing img {
-			border-width: 0px;
-		}
-		div.broken {
-			display: none;
-		}
-		div#unityPlayer {
-			cursor: default;
-			height: 900px;
-			width: 600px;
-		}
-		-->
-		</style>
-	</head>
-	<body>
-		<p class="header"><span>Unity Web Player | </span>Space Shooter</p>
-		<div class="content">
-			<div id="unityPlayer">
-				<div class="missing">
-					<a href="http://unity3d.com/webplayer/" title="Unity Web Player. Install now!">
-						<img alt="Unity Web Player. Install now!" src="http://webplayer.unity3d.com/installation/getunity.png" width="193" height="63" />
-					</a>
-				</div>
-				<div class="broken">
-					<a href="http://unity3d.com/webplayer/" title="Unity Web Player. Install now! Restart your browser after install.">
-						<img alt="Unity Web Player. Install now! Restart your browser after install." src="http://webplayer.unity3d.com/installation/getunityrestart.png" width="193" height="63" />
-					</a>
-				</div>
-			</div>
-		</div>
-		<p class="footer">&laquo; created with <a href="http://unity3d.com/unity/" title="Go to unity3d.com">Unity</a> &raquo;</p>
-	</body>
+  <meta charset="UTF-8">
+
+  <title>裹胸的专辑</title>
+
+    <link rel="stylesheet" href="css/style.css" media="screen" type="text/css" />
+    <style>
+    @-webkit-keyframes rotate {
+        from {-webkit-transform:rotate(0deg);}
+        to {-webkit-transform:rotate(360deg);}
+    }
+    img.spinner {
+        overflow: hidden; 
+        -webkit-animation-name: rotate;
+        -webkit-animation-duration: 10s;
+        -webkit-animation-iteration-count: infinite;
+        -webkit-animation-timing-function: linear;
+    }
+    </style>
+</head>
+
+<body>
+<div style="text-align:center;clear:both">
+<!--<script src="/gg_bd_ad_720x90.js" type="text/javascript"></script>
+<script src="/follow.js" type="text/javascript"></script>-->
+</div>
+  <div id="container">
+	<label class="to-back-label" for="to-back"><i class="fa fa-bars fa-lg"></i></label>
+	<input type="checkbox" id="to-back"><!-- playlist toggle -->
+	<canvas id="progress" width="320" height="320"></canvas><!-- progress bar -->
+	<div id="player">
+		<audio id="audio" controls>
+			<source src="xiaopingguo.mp3" type="audio/mpeg" codecs="mp3"></source>		
+		</audio>
+		<img id="backimg" class="hehe" src="1.png"><!-- album cover -->
+		<label class="to-lyrics-label" for="to-lyrics"><i class="fa fa-caret-down fa-lg"></i></label>
+		<input type="checkbox" id="to-lyrics"><!-- lyrics toggle -->
+		<div class="cover">
+			<div class="controls">
+				<button id="backward" title="Backward"><i class="fa fa-retweet fa-lg"></i></button>
+				<button id="backward" title="Backward"><i class="fa fa-backward fa-2x"></i></button>
+				<button id="play-pause" title="Play" onclick="togglePlayPause()"><i class="fa fa-play fa-3x"></i></button>
+				<button id="forward" title="Forward"><i class="fa fa-forward fa-2x"></i></button>
+				<button id="backward" title="Backward"><i class="fa fa-random fa-lg"></i></button>
+				<input id="volume" name="volume" min="0" max="1" step="0.1" type="range" onchange="setVolume()" />
+			</div><!-- #controls -->
+			<div class="info">
+				<p class="song"><a href="#" target="_blank">小苹果</a></p>
+				<p class="author"><a href="#" target="_blank">裹胸</a></p>
+			</div><!-- #info -->
+			<div class="lyrics">
+				<p>这里是小苹果的歌词~~~.</p>
+				<p>这里是小苹果的歌词~~~.</p>
+				<p>这里是小苹果的歌词~~~.</p>
+                <p>这里是小苹果的歌词~~~.</p>
+                <p>这里是小苹果的歌词~~~.</p>
+                <p>这里是小苹果的歌词~~~.</p>
+                <p>这里是小苹果的歌词~~~.</p>
+                <p>这里是小苹果的歌词~~~.</p>
+                <p>这里是小苹果的歌词~~~.</p>
+                <p>这里是小苹果的歌词~~~.</p>
+                <p>这里是小苹果的歌词~~~.</p>
+                <p>这里是小苹果的歌词~~~.</p>
+                <p>这里是小苹果的歌词~~~.</p>
+                <p>这里是小苹果的歌词~~~.</p>
+                <p>这里是小苹果的歌词~~~.</p>
+                <p>这里是小苹果的歌词~~~.</p>
+			</div><!-- #lyrics -->
+			<p class="scroll">scroll down</p>
+		</div><!-- #cover -->
+	</div><!-- #player -->
+	<div id="flip-back">
+		<ul class="playlist">
+			<h3>专辑列表</h3>
+			<li><a href="#">1. 小苹果</a></li>
+			<li><a href="#">2. 小苹果</a></li>
+			<li><a href="#" style="color:#26C5CB;"><i class="fa fa-play" style="margin-right:4px;"></i> 3. 小苹果</a></li>
+			<li><a href="#">4. 小苹果"</a></li>
+			<li><a href="#">5. 小苹果</a></li>
+		</ul>
+	</div><!-- #flip-back -->
+</div><!-- #container -->
+
+<div class="credits">
+	<p>大家好，我是裹胸，这是我的音乐小屋！</p>
+</div><!-- #credits -->
+
+  <script src="js/index.js"></script>
+
+</body>
+
 </html>
